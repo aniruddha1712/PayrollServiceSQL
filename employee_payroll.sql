@@ -58,3 +58,17 @@ select * from employee_payroll;
 insert into employee_payroll (Name, Basic_pay, StartDate, Gender, Phone, Address, Department, Deductions, Taxable_Pay, Income_Tax,Net_pay)
 					  values ('Virat', 60000.00, '2011-05-05', 'M', 7894561230, 'Bangalore', 'RCB',1000.00, 59000.00, 2000.00);
 update employee_payroll set Net_Pay = (Basic_Pay-Deductions-Taxable_Pay-Income_Tax);
+
+--ER diagram--
+
+create table Department
+(
+Dept_Id int identity (1,1) primary key,
+Emp_Id int foreign key references employee_payroll(Id),
+Department varchar(100)
+);
+--drop table Department;
+insert into employee_payroll (Name, Basic_pay, StartDate, Gender, Phone, Address, Department, Deductions, Taxable_Pay, Income_Tax,Net_pay)
+					  values ('Virat', 60000.00, '2011-05-05', 'M', 7894561230, 'Bangalore', 'RCB',1000.00, 59000.00, 2000.00,0);
+update employee_payroll set Net_Pay = (Basic_Pay-Deductions-Taxable_Pay-Income_Tax);
+
