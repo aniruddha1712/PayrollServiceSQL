@@ -57,7 +57,7 @@ select * from employee_payroll;
 --UC10-- Two departments for same employee
 insert into employee_payroll (Name, Basic_pay, StartDate, Gender, Phone, Address, Department, Deductions, Taxable_Pay, Income_Tax,Net_pay)
 					  values ('Virat', 60000.00, '2011-05-05', 'M', 7894561230, 'Bangalore', 'RCB',1000.00, 59000.00, 2000.00);
-update employee_payroll set Net_Pay = (Basic_Pay-Deductions-Taxable_Pay-Income_Tax);
+update employee_payroll set Net_Pay = (Basic_Pay-Deductions-Income_Tax);
 
 --ER diagram--
 
@@ -70,5 +70,21 @@ Department varchar(100)
 --drop table Department;
 insert into employee_payroll (Name, Basic_pay, StartDate, Gender, Phone, Address, Department, Deductions, Taxable_Pay, Income_Tax,Net_pay)
 					  values ('Virat', 60000.00, '2011-05-05', 'M', 7894561230, 'Bangalore', 'RCB',1000.00, 59000.00, 2000.00,0);
-update employee_payroll set Net_Pay = (Basic_Pay-Deductions-Taxable_Pay-Income_Tax);
+update employee_payroll set Net_Pay = (Basic_Pay-Deductions-Income_Tax);
 
+--Stored procedure--
+create procedure spAddEmployees
+@Name varchar(100),
+@Startdate Date,
+@Gender char(1),
+@Phone bigint,
+@Department varchar(100),
+@Address varchar(100),
+@Basic_Pay float,
+@Deductions float,
+@Taxable_pay float,
+@Income_tax float,
+@Net_pay float
+as
+insert into employee_payroll (Name, Startdate, Gender, Phone, Address, Department, Basic_Pay, Deductions, Taxable_pay, Income_tax, Net_pay)
+	values(@Name, @Startdate, @Gender, @Phone, @Address, @Department, @Basic_Pay, @Deductions, @Taxable_pay, @Income_tax, @Net_pay);
