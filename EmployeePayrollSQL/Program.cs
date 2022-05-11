@@ -82,6 +82,10 @@ namespace EmployeePayrollSQL
                         Console.WriteLine("Count");
                         repo.GetCount(countquery);
                         break;
+                    case 7:
+                        EmployeeModel model3 = new EmployeeModel() { Name = "AAA", Gender = 'M', Address = "Bnglr" };
+                        repo.InsertIntoTwoTables(model3);
+                        break;
                 }
                 Console.ReadLine();
             }

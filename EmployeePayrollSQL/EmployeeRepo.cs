@@ -23,9 +23,9 @@ namespace EmployeePayrollSQL
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();
-                    if(reader.HasRows)
+                    if (reader.HasRows)
                     {
-                        while(reader.Read())
+                        while (reader.Read())
                         {
                             model.Id = Convert.ToInt32(reader["Id"] == DBNull.Value ? default : reader["Id"]);
                             model.Name = Convert.ToString(reader["Name"] == DBNull.Value ? default : reader["Name"]);
@@ -48,7 +48,7 @@ namespace EmployeePayrollSQL
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -64,7 +64,7 @@ namespace EmployeePayrollSQL
                 connection = new SqlConnection(connectionString);
                 SqlCommand command = new SqlCommand("spAddEmployees", connection);
                 command.CommandType = CommandType.StoredProcedure;
-                
+
                 command.Parameters.AddWithValue("@Name", obj.Name);
                 command.Parameters.AddWithValue("@Gender", obj.Gender);
                 command.Parameters.AddWithValue("@Startdate", obj.Startdate);
@@ -196,7 +196,7 @@ namespace EmployeePayrollSQL
                     adapter.Fill(dataSet);
                     foreach (DataRow dataRow in dataSet.Tables[0].Rows)
                     {
-                        Console.WriteLine(dataRow["sumsalary"]+","+dataRow["Gender"]);
+                        Console.WriteLine(dataRow["sumsalary"] + "," + dataRow["Gender"]);
                     }
                 }
             }
@@ -307,6 +307,41 @@ namespace EmployeePayrollSQL
             finally
             {
                 connection.Close();
+            }
+        }
+        public void InsertIntoTwoTables(EmployeeModel obj)
+        {
+            try
+            {
+                connection = new SqlConnection(connectionString);
+                connection.Open();
+                SqlCommand command = new SqlCommand("spInsertIntoTwoTables", connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                command.Parameters.AddWithValue("@Name", obj.Name);
+                command.Parameters.AddWithValue("@Gender", obj.Gender);
+                command.Parameters.AddWithValue("@Address", obj.Address);
+                command.Parameters.Add("Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                var result = command.ExecuteScalar();
+                string id = command.Parameters["Id"].Value.ToString();
+                int newId = Convert.ToInt32(id);
+
+                string query = $"Insert into Payroll_Details(EmpId, Salary) values({newId},7894)";
+                SqlCommand cmd = new SqlCommand(query, connection);
+                int res = cmd.ExecuteNonQuery();
+                if (res != 0)
+                {
+                    Console.WriteLine("Inserted into salary table successfully");
+                }
+                else
+                {
+                    Console.WriteLine("Failed to insert into salary table");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }
