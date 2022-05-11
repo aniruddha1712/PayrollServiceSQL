@@ -16,7 +16,8 @@ namespace EmployeePayrollSQL
             try
             {
                 Console.WriteLine("Choose option or press 0 for exit\n1:Retrieve Data\n2:Add Data\n3:Update Basic_Salary\n4:Delete Data" +
-                    "\n5:Retrive employee with date Range\n6:Find Sum Avg Max Min Count group by gender");
+                    "\n5:Retrive employee with date Range\n6:Find Sum Avg Max Min Count group by gender\n7:Insert into two table\n8:" +
+                    "Insert into two table with Transaction");
                 int option = Convert.ToInt32(Console.ReadLine());
                 switch (option)
                 {
@@ -85,6 +86,9 @@ namespace EmployeePayrollSQL
                     case 7:
                         EmployeeModel model3 = new EmployeeModel() { Name = "AAA", Gender = 'M', Address = "Bnglr" };
                         repo.InsertIntoTwoTables(model3);
+                        break;
+                    case 8:
+                        repo.InsertIntoTwoTablesWithTransactions();
                         break;
                 }
                 Console.ReadLine();
